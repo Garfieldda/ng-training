@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-
 import { environment } from '../../../environments/environment';
 import { User } from '../../user/user.barrel';
+import { BroadcasterService } from '../shared.barrel';
 
 @Injectable()
 export class AuthService {
@@ -31,7 +31,7 @@ export class AuthService {
       (error: any) => {
         this.token = undefined;
       }
-    )
+    );
 
     return observable;
   }

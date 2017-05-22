@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-
-import { AuthService } from '../../shared.barrel';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import {
+  AuthService,
+  ApiRequestStorageService,
+  ModalLoginComponent
+} from '../../shared.barrel';
 
 @Component({
   selector: 'app-navigation',
@@ -8,13 +12,20 @@ import { AuthService } from '../../shared.barrel';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
+  @ViewChild(ModalLoginComponent) modalLoginComponent: ModalLoginComponent;
 
-  public constructor(public authService: AuthService) {
+  public constructor(public authService: AuthService,
+                     private _ApiRequestStorageService: ApiRequestStorageService
+                    ) {
     //
   }
 
   public ngOnInit() {
     //
+  }
+
+  public showModalLogin() {
+    this.modalLoginComponent.open();
   }
 
 }

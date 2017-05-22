@@ -26,3 +26,11 @@ Before running the tests make sure you are serving the app via `ng serve`.
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+Következő megoldást alkalmaztam:
+A “Log In” oldal átalakításra került  modális ablakra és a “shared” modulba került, mivel mindig elérhetőnek kell lennie.
+Létre lett hozva egy “ApiRequestStorage” szervíz, mely az API híváskor token hibával való visszatéréskor az hívás adatokat eltárolja. Ha esetleg több jönne egymás után azokat is.
+Ebben az esetben meghívásra kerül modális Log In ablak és újra be lehet jelentkezni anélkül, hogy az oldalt elhagynánk. sikeres bejelentkezéskor az “ApiRequestStorage” szervíz meghívja az API-t az eltárolt kérésekkel, így onnan folytatódik a folyamat, ahol a hiba fellépet. Lehetőség van a bejelentkezés elutasítására. Ebben az esetben a kijelentkezés folyamata hajtódik végre. A modális bejelentkező ablakot nem lehet bezárni semmilyen billentyű leütésével vagy egér művelettel, csakis a modális bejelentkező ablakon lévő gombokkal.
+A függőségek miatt készítettem egy “BroadcasterService”-t, mely a szervizek és komponensek közötti komunikációt biztosítja és meg akadályozza a körbe hivatkozást.
+
+A “Tasks” lapon található egy “Token clear” gomb, mely segítségével érvényteleniteni lehet az aktuális token-t.

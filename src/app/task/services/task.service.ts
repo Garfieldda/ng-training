@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 
-import { ApiService, ApiResponseConfig } from '../../shared/shared.barrel';
+import { ApiService, ApiResponseConfigInterfaced } from '../../shared/shared.barrel';
 import { Task } from '../task.barrel';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class TaskService {
     //
   }
 
-  public list(responseConfig: ApiResponseConfig): void {
+  public list(responseConfig: ApiResponseConfigInterfaced): void {
     this._apiService.request(
       {
         method: 'Get',
@@ -22,7 +22,7 @@ export class TaskService {
     );
   }
 
-  public create(task: Task, responseConfig: ApiResponseConfig): void {
+  public create(task: Task, responseConfig: ApiResponseConfigInterfaced): void {
     this._apiService.request(
       {
         method: 'Post',
@@ -33,7 +33,7 @@ export class TaskService {
     )
   }
 
-  public update(task: Task, responseConfig: ApiResponseConfig): void {
+  public update(task: Task, responseConfig: ApiResponseConfigInterfaced): void {
     this._apiService.request(
       {
         method: 'Patch',
@@ -44,7 +44,7 @@ export class TaskService {
     )
   }
 
-  public delete(task: Task, responseConfig: ApiResponseConfig): void {
+  public delete(task: Task, responseConfig: ApiResponseConfigInterfaced): void {
     this._apiService.request(
       {
         method: 'Delete',

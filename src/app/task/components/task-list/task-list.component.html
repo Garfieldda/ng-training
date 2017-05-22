@@ -13,3 +13,11 @@
   </li>
 </ul>
 <button type="button" class="btn btn-default" (click)="addNewTask()" [disabled]="loading">Add New Task</button>
+<div class="tokenProblemDiv">
+	<h5>
+	  Token problem test!
+	  <img *ngIf="loading" src="assets/loader.gif">
+	</h5>
+	
+	<button type="button" class="btn btn-warning" (click)="tokenClear()" [disabled]="loading">Token clear</button>
+</div>

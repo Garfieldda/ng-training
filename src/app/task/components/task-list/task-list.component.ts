@@ -1,3 +1,4 @@
+import { AuthService } from '../../../shared/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 import {
@@ -14,7 +15,7 @@ export class TaskListComponent implements OnInit {
   public tasks: Task[];
   public loading: boolean = true;
 
-  public constructor(private _taskService: TaskService) {
+  public constructor(private _taskService: TaskService, private _auth: AuthService) {
     //
   }
 
@@ -33,7 +34,7 @@ export class TaskListComponent implements OnInit {
   public addNewTask() {
     this.loading = true;
     let task = new Task();
-    task.name = 'New Task';
+    task.name = 'New Task_' + Math.random().toString().substr(3, 4);
     this._taskService.create(
       task,
       {
@@ -49,4 +50,7 @@ export class TaskListComponent implements OnInit {
     }
   }
 
+  public tokenClear() {
+    this._auth.token = 'sdfar5q34fdsafasd';
+  }
 }

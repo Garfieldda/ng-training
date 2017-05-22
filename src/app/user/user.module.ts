@@ -1,27 +1,28 @@
+import { ApiService } from '../shared/services/api.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
   UserRoutingModule,
-  LoginComponent,
   RegistrationComponent,
-  UserService
+  UserService,
 } from './user.barrel';
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    UserRoutingModule
+    UserRoutingModule,
   ],
   declarations: [
-    LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
   ],
   providers: [
-    UserService
+    UserService,
+    ApiService
   ]
 })
 export class UserModule { }

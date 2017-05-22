@@ -39,7 +39,7 @@ export class RegistrationComponent implements OnInit {
       (response: Response) => {
         console.log(response);
         window.alert('Successful registration!');
-        
+
         this.user = new User();
         this.form.reset();
         this.loading = false;
