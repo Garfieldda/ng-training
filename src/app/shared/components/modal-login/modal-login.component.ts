@@ -29,7 +29,9 @@ export class ModalLoginComponent implements OnInit {
   public constructor(private _authService: AuthService,
                      private _router: Router,
                      private _broadcaster: BroadcasterService) {
-    this.registerBroadcastLogined();
+    this._registerBroadcastLogined();
+    this._registerBroadcastLoginOfSuccess();
+    this._registerBroadcastLoginOfFailed();
   }
 
   public ngOnInit() {
@@ -43,25 +45,7 @@ export class ModalLoginComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this._authService.login(this.user).subscribe(
-      (response: Response) => {
-        this.user = new User();
-        this.form.reset();
-        if (this.timeOutToken) {
-          this._sendReLoginedToApiRequestStorageService();
-        } else {
-          this._router.navigate(['/']);
-        }
-        this.close();
-      },
-      (error: any) => {
-        console.log(error);
-        window.alert('Login failed.');
-        this.loading = false;
-      },
-      () => {
-      }
-    );
+    this._authService.login(this.user);
   }
 
   public cancel() {
@@ -81,7 +65,7 @@ export class ModalLoginComponent implements OnInit {
 
 
   /* Feliratkozási metodus az üzenetek fogadására! */
-  private registerBroadcastLogined() {
+  private _registerBroadcastLogined() {
     this._broadcaster.on<string>('runModalLogin').subscribe(message => {
       this.timeOutToken = true;
       this.loading = false;
@@ -89,6 +73,27 @@ export class ModalLoginComponent implements OnInit {
      });
   }
 
+
+  private _registerBroadcastLoginOfSuccess() {
+    this._broadcaster.on<string>('loginOfSuccess').subscribe(message => {
+        this.user = new User();
+        this.form.reset();
+        if (this.timeOutToken) {
+          this._sendReLoginedToApiRequestStorageService();
+        } else {
+          this._router.navigate(['/']);
+        }
+        this.close();
+      });
+  }
+
+  private _registerBroadcastLoginOfFailed() {
+    this._broadcaster.on<string>('loginOfFailed').subscribe(data => {
+        console.log(data);
+        window.alert('Login failed.');
+        this.loading = false;
+      });
+  }
 
   /* Üzenetek küldése esemény hatására */
   private _sendReLoginedToApiRequestStorageService() {

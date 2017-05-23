@@ -12,28 +12,29 @@ export class AuthService {
   public user: User;
   public token: string;
 
-  constructor(private _http: Http, private _router: Router) {
+  constructor(private _http: Http, private _router: Router, private _broadcasterService: BroadcasterService) {
     this._loadFromStorage();
   }
 
-  public login(user: User): Observable<Response> {
+  public login(user: User) {
+    console.log('this._http.post');
     let observable: Observable<Response> = this._http.post(
       environment.apiEndpoint + '/auth',
       user
     );
 
-    observable.subscribe(
+   observable.subscribe(
       (response: Response) => {
         this.user = response.json()['user'];
         this.token = response.json()['token'];
         this._saveToStorage();
+        this._loginOfSuccess();
       },
       (error: any) => {
         this.token = undefined;
+        this._loginOfFailed(error);
       }
     );
-
-    return observable;
   }
 
   public logout(): void {
@@ -60,6 +61,14 @@ export class AuthService {
     this.token = localStorage.getItem('token');
     let userString: string = localStorage.getItem('user');
     this.user = userString ? JSON.parse(userString) : undefined;
+  }
+
+  private _loginOfSuccess() {
+    this._broadcasterService.broadcast('loginOfSuccess');
+  }
+
+  private _loginOfFailed(error: any) {
+    this._broadcasterService.broadcast('loginOfFailed', error);
   }
 
 }
